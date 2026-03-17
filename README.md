@@ -180,28 +180,29 @@ Clone the repository and install dependencies:
 git clone https://github.com/yourusername/ZRCP-ABSA.git
 cd ZRCP-ABSA
 pip install -r requirements.txt
+```
 
-## Requirements
-
+Requirements:
 - Python 3.8+
 - PyTorch 1.10+
 - Transformers 4.20+
 - NumPy, scikit-learn, tqdm
 
-## Data Preparation
+### Data Preparation
 
 1. Download the ASAP dataset (contact authors for access or use your own ABSA dataset).
 2. Place the data in `./data/` with the following structure:
+
+```
 data/
 ├── train.json
 ├── dev.json
 └── test.json
-
-text
+```
 
 Each JSON line should contain `text`, `aspect`, `polarity`, and optionally `window_text` (if using our context-aware extraction).
 
-## Training
+### Training
 
 To train the model with default settings:
 
@@ -221,30 +222,46 @@ python train.py \
   --tau_ibn 20 \
   --tau_angle 20 \
   --do_train
+```
 
-运行
-Evaluation
+### Evaluation
+
 Evaluate a trained model on the test set:
 
-bash
+```bash
 python evaluate.py \
   --model_path ./outputs/best_model \
   --test_file data/test.json \
   --output_file ./results/predictions.json
-📝 Citation
+```
+
+---
+
+## 📝 Citation
+
 If you find this work useful for your research, please cite our paper:
 
-bibtex
+```bibtex
 @article{yourname2026beyond,
   title={Beyond Cosine Similarity: Zero-Initialized Residual Complex Projection for Aspect-Based Sentiment Analysis},
   author={Your Name and Collaborators},
   journal={arXiv preprint arXiv:2303.XXXXX},
   year={2026}
 }
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+```
 
-🙏 Acknowledgements
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgements
+
 We thank the authors of the ASAP dataset and the open-source community for their valuable contributions.
 
-Note: The code and data will be released upon paper acceptance. For questions, please open an issue or contact your.email@example.com.
+---
+
+**Note:** The code and data will be released upon paper acceptance. For questions, please open an issue or contact [your.email@example.com](mailto:your.email@example.com).
