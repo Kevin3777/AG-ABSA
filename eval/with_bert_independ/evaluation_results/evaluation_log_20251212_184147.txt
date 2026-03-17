@@ -1,0 +1,64 @@
+2025-12-12 18:41:47,427 - aspect_evaluation - INFO - 快速评估测试
+2025-12-12 18:41:47,427 - aspect_evaluation - INFO - 
+评估: Food#Taste (口味)
+2025-12-12 18:41:47,428 - aspect_evaluation - INFO - ================================================================================
+2025-12-12 18:41:47,428 - aspect_evaluation - INFO - 开始评估: Food#Taste (口味)
+2025-12-12 18:41:47,428 - aspect_evaluation - INFO - ================================================================================
+2025-12-12 18:41:47,428 - aspect_evaluation - INFO - 步骤1: 加载和准备数据
+2025-12-12 18:41:48,093 - aspect_evaluation - INFO - 数据统计: 训练集 21282 样本, 测试集 2763 样本
+2025-12-12 18:41:48,093 - aspect_evaluation - INFO - 步骤2: 提取特征向量
+2025-12-12 18:41:48,094 - aspect_evaluation - INFO -   提取 AnglE-ALCE 向量...
+2025-12-12 18:52:52,241 - aspect_evaluation - INFO -   提取点积模型向量...
+2025-12-12 19:03:56,363 - aspect_evaluation - INFO -   提取 BERT-CLS 向量...
+2025-12-12 19:15:00,956 - aspect_evaluation - INFO - 步骤3: 训练和评估模型
+2025-12-12 19:15:00,956 - aspect_evaluation - INFO -   评估 AnglE-ALCE...
+2025-12-12 19:15:06,131 - aspect_evaluation - INFO - Food#Taste - AnglE-ALCE 评估结果:
+2025-12-12 19:15:06,132 - aspect_evaluation - INFO -   准确率: 0.9747
+2025-12-12 19:15:06,132 - aspect_evaluation - INFO -   Macro F1: 0.9170
+2025-12-12 19:15:06,132 - aspect_evaluation - INFO -   精确率: 0.8830
+2025-12-12 19:15:06,132 - aspect_evaluation - INFO -   召回率: 0.9597
+2025-12-12 19:15:06,133 - aspect_evaluation - INFO -   混淆矩阵:
+[[ 195   12]
+ [  58 2498]]
+2025-12-12 19:15:06,133 - aspect_evaluation - INFO -   训练样本数: 21282, 测试样本数: 2763
+2025-12-12 19:15:06,133 - aspect_evaluation - INFO -   正负样本分布 - 训练: [ 1484     0 19798], 测试: [ 207    0 2556]
+2025-12-12 19:15:06,134 - aspect_evaluation - INFO -   评估点积模型...
+2025-12-12 19:15:16,083 - aspect_evaluation - INFO - Food#Taste - Dot-Product 评估结果:
+2025-12-12 19:15:16,083 - aspect_evaluation - INFO -   准确率: 0.9566
+2025-12-12 19:15:16,083 - aspect_evaluation - INFO -   Macro F1: 0.8651
+2025-12-12 19:15:16,083 - aspect_evaluation - INFO -   精确率: 0.8228
+2025-12-12 19:15:16,084 - aspect_evaluation - INFO -   召回率: 0.9255
+2025-12-12 19:15:16,084 - aspect_evaluation - INFO -   混淆矩阵:
+[[ 184   23]
+ [  97 2459]]
+2025-12-12 19:15:16,084 - aspect_evaluation - INFO -   训练样本数: 21282, 测试样本数: 2763
+2025-12-12 19:15:16,085 - aspect_evaluation - INFO -   正负样本分布 - 训练: [ 1484     0 19798], 测试: [ 207    0 2556]
+2025-12-12 19:15:16,085 - aspect_evaluation - INFO -   评估 BERT-CLS...
+2025-12-12 19:15:24,595 - aspect_evaluation - INFO - Food#Taste - BERT-CLS 评估结果:
+2025-12-12 19:15:24,595 - aspect_evaluation - INFO -   准确率: 0.9504
+2025-12-12 19:15:24,595 - aspect_evaluation - INFO -   Macro F1: 0.8486
+2025-12-12 19:15:24,595 - aspect_evaluation - INFO -   精确率: 0.8049
+2025-12-12 19:15:24,596 - aspect_evaluation - INFO -   召回率: 0.9133
+2025-12-12 19:15:24,596 - aspect_evaluation - INFO -   混淆矩阵:
+[[ 180   27]
+ [ 110 2446]]
+2025-12-12 19:15:24,596 - aspect_evaluation - INFO -   训练样本数: 21282, 测试样本数: 2763
+2025-12-12 19:15:24,597 - aspect_evaluation - INFO -   正负样本分布 - 训练: [ 1484     0 19798], 测试: [ 207    0 2556]
+2025-12-12 19:15:24,597 - aspect_evaluation - INFO - 步骤4: 结果对比分析
+2025-12-12 19:15:24,597 - aspect_evaluation - INFO - 对比分析:
+2025-12-12 19:15:24,597 - aspect_evaluation - INFO -   angle_alce: F1 = 0.9170
+2025-12-12 19:15:24,598 - aspect_evaluation - INFO -   dot_product: F1 = 0.8651
+2025-12-12 19:15:24,598 - aspect_evaluation - INFO -   bert: F1 = 0.8486
+2025-12-12 19:15:24,598 - aspect_evaluation - INFO -   最佳模型: angle_alce (F1 = 0.9170)
+2025-12-12 19:15:24,598 - aspect_evaluation - INFO -   AnglE-ALCE 相比 BERT 提升: 0.0685
+2025-12-12 19:15:24,598 - aspect_evaluation - INFO -   点积模型相比 BERT 提升: 0.0166
+2025-12-12 19:15:24,599 - aspect_evaluation - INFO - 完成评估: Food#Taste (口味)
+2025-12-12 19:15:24,618 - aspect_evaluation - INFO - 
+评估: Service#Hospitality (服务态度)
+2025-12-12 19:15:24,619 - aspect_evaluation - INFO - ================================================================================
+2025-12-12 19:15:24,619 - aspect_evaluation - INFO - 开始评估: Service#Hospitality (服务态度)
+2025-12-12 19:15:24,619 - aspect_evaluation - INFO - ================================================================================
+2025-12-12 19:15:24,619 - aspect_evaluation - INFO - 步骤1: 加载和准备数据
+2025-12-12 19:15:25,293 - aspect_evaluation - INFO - 数据统计: 训练集 16811 样本, 测试集 2205 样本
+2025-12-12 19:15:25,293 - aspect_evaluation - INFO - 步骤2: 提取特征向量
+2025-12-12 19:15:25,293 - aspect_evaluation - INFO -   提取 AnglE-ALCE 向量...

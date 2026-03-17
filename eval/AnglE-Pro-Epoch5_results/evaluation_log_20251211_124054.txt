@@ -1,0 +1,28 @@
+2025-12-11 12:40:54,735 - ============================================================
+2025-12-11 12:40:54,735 - 🚀 开始评估自定义模型: AnglE-Pro-Epoch5
+2025-12-11 12:40:54,736 - 📁 权重路径: checkpoints_pro\v1\checkpoint-epoch-2
+2025-12-11 12:40:54,736 - ============================================================
+2025-12-11 12:41:57,899 - [Location#Transportation] Acc: 0.7465 | F1: 0.5773 | Prec: 0.5853 | Rec: 0.7617
+2025-12-11 12:42:54,996 - [Location#Downtown] Acc: 0.7807 | F1: 0.5105 | Prec: 0.5351 | Rec: 0.7253
+2025-12-11 12:44:03,063 - [Location#Easy_to_find] Acc: 0.7062 | F1: 0.6526 | Prec: 0.6520 | Rec: 0.7153
+2025-12-11 12:44:35,808 - [Service#Queue] Acc: 0.6787 | F1: 0.6782 | Prec: 0.6784 | Rec: 0.6794
+2025-12-11 12:46:44,844 - 处理 Service#Hospitality 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:45,531 - 处理 Service#Parking 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:46,256 - 处理 Service#Timely 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:46,921 - 处理 Price#Level 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:47,595 - 处理 Price#Cost_effective 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:48,282 - 处理 Price#Discount 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:48,935 - 处理 Ambience#Decoration 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:49,594 - 处理 Ambience#Noise 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:50,212 - 处理 Ambience#Space 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:50,827 - 处理 Ambience#Sanitary 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:51,448 - 处理 Food#Portion 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:52,102 - 处理 Food#Taste 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:52,722 - 处理 Food#Appearance 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:53,336 - 处理 Food#Recommend 时发生未知错误: Repo id must use alphanumeric chars, '-', '_' or '.'. The name cannot start or end with '-' or '.' and the maximum length is 96: 'checkpoints_pro\v1\checkpoint-epoch-2'.
+2025-12-11 12:46:53,343 - 
+============================================================
+2025-12-11 12:46:53,343 - 🏆 最终平均 Macro F1: 0.6047
+2025-12-11 12:46:53,343 - 📊 最终平均 Accuracy: 0.7280
+2025-12-11 12:46:53,344 - 💾 结果已保存至: eval\AnglE-Pro-Epoch5_results\final_results.csv
+2025-12-11 12:46:53,344 - ============================================================

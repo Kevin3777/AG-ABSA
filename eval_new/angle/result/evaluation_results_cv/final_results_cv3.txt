@@ -1,0 +1,11 @@
+模型路径: checkpoints/angle_alce_encoder_final_V2_another_0303
+测试集: asap-master\data\test.csv
+交叉验证折数: 5
+评估时间: 2026-03-07 11:56:09
+平均 Accuracy: 0.9680
+平均 F1-Macro: 0.9308
+
+各Aspect详细结果:
+  服务态度: F1=0.9453, Acc=0.9624
+  性价比: F1=0.9313, Acc=0.9671
+  口味: F1=0.9157, Acc=0.9747

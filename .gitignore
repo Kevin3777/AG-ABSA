@@ -1,0 +1,32 @@
+# 忽略所有 checkpoint 相关目录
+checkpoints/
+checkpoints_*/
+checkpoint*/
+
+# 忽略 RAG 相关目录
+rag_index/
+rag_build/
+
+# 忽略数据文件目录
+data_preparation/
+asap-master/
+
+# 忽略 JSONL 数据文件（所有目录下的）
+*.jsonl
+*.json
+*.csv
+*.tsv
+
+# 忽略 Python 缓存文件
+__pycache__/
+*.pyc
+
+# 忽略 IDE 配置文件
+.vscode/
+.idea/
+
+# 忽略模型文件
+*.bin
+*.pt
+*.pth
+*.ckpt
