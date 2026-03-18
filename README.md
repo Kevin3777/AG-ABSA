@@ -66,12 +66,13 @@ The pre-trained model is available on Hugging Face: [Kevin3777/zero-init-residua
 
 Instead of hard chunking the hidden state into real/imaginary parts (which destroys semantic integrity), we use two zero-initialized linear projections with residual connections:
 
-\[
+$$
 h_{\text{re}} = \mathrm{chunk}(h)_{\text{re}} + W_{\text{re}}(\mathrm{chunk}(h)_{\text{re}} + b_{\text{re}})
-\]
-\[
+$$
+
+$$
 h_{\text{im}} = \mathrm{chunk}(h)_{\text{im}} + W_{\text{im}}(\mathrm{chunk}(h)_{\text{im}} + b_{\text{im}})
-\]
+$$
 
 At initialization, ZRCP acts as an identity mapping; during training, it learns to disentangle aspect (real part) and polarity (imaginary part) without spatial collapse.
 
@@ -79,23 +80,23 @@ At initialization, ZRCP acts as an identity mapping; during training, it learns 
 
 Standard contrastive loss erroneously repels same-polarity samples. We introduce a mask matrix \(M_{ij}\) that zeros out the penalty for pairs sharing the same aspect and polarity:
 
-\[
+$$
 \mathcal{L}_{\text{ibn}} = -\sum_{i=1}^{N} \log \left( \frac{e^{\mathrm{sim}(h_i,h_i^+)\tau_{\text{ibn}}}}{\sum_{j=1}^{N} e^{\mathrm{sim}(h_i,h_j)\tau_{\text{ibn}}} \cdot (1 - M_{ij})} \right)
-\]
+$$
 
 ### Angle-Optimized Objective
 
 We explicitly maximize the angular divergence between opposing sentiments using complex division and amplitude normalization:
 
-\[
+$$
 \mathcal{L}_{\text{angle}} = \log\left(1 + \sum_{n\in \mathcal{N}} \exp\left(\Delta \theta_{zn}\tau_{\text{angle}} - \Delta \theta_{zw}\tau_{\text{angle}}\right)\right)
-\]
+$$
 
 ### Joint Loss
 
-\[
+$$
 \mathcal{L}_{\text{total}} = w_{\text{ibn}}\mathcal{L}_{\text{ibn}} + w_{\text{angle}}\mathcal{L}_{\text{angle}} + w_{\text{cos}}\mathcal{L}_{\text{cos}}
-\]
+$$
 
 In our optimal configuration: \(w_{\text{ibn}}=1.0\), \(w_{\text{angle}}=1.0\), \(w_{\text{cos}}=0.1\), \(\tau_{\text{ibn}}=\tau_{\text{angle}}=20\).
 
