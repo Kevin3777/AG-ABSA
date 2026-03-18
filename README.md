@@ -102,6 +102,30 @@ In our optimal configuration: $w_{\text{ibn}}=1.0$, $w_{\text{angle}}=1.0$, $w_{
 
 ---
 
+
+## 📦 Dataset
+
+### ASAP-Triplet Dataset
+
+We release the pre-processed triplet dataset used in our experiments to facilitate future research.
+
+**Dataset Description**:
+- **Base dataset**: ASAP ([Aspect-based Sentiment Analysis of Restaurant Reviews](https://github.com/Meituan-Dianping/asap.git))
+- **Language**: Chinese
+- **Aspects**: 18 fine-grained categories (Location, Service, Price, Taste, etc.)
+- **Polarities**: Positive, Negative, Neutral
+- **Format**: JSON lines with triplet structure for contrastive learning
+
+**Access**:
+```bash
+# Download from Hugging Face
+git clone https://huggingface.co/datasets/Kevin3777/ASAP-Triplet
+
+# Or load directly with datasets library
+from datasets import load_dataset
+dataset = load_dataset("Kevin3777/ASAP-Triplet")
+
+
 ## 📊 Experiments
 
 ### Dataset
@@ -187,17 +211,19 @@ pip install -r requirements.txt
 
 ### Data Preparation
 
-1. Download the ASAP dataset (contact authors for access or use your own ABSA dataset).
-2. Place the data in `./data/` with the following structure:
+We provide the pre-processed triplet dataset on Hugging Face Datasets, which only contains the training data for the triplet group:
 
-```
-data/
-├── train.json
-├── dev.json
-└── test.json
-```
+```bash
+# Option 1: Clone the dataset repository
+git clone https://huggingface.co/datasets/Kevin3777/ASAP-Triplet
+cp asap-triplet/*.json ./data/
 
-Each JSON line should contain `text`, `aspect`, `polarity`, and optionally `window_text` (if using our context-aware extraction).
+You could have the original datasets including the train, dev and test data from https://github.com/Meituan-Dianping/asap.git
+
+```bash
+# Option 1: Clone the dataset repository
+git clone https://huggingface.co/datasets/Kevin3777/ASAP-Triplet
+cp asap-triplet/*.json ./data/
 
 ### Direct Usage
 
