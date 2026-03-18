@@ -218,6 +218,7 @@ We provide the pre-processed triplet dataset on Hugging Face Datasets, which onl
 # Option 1: Clone the dataset repository
 git clone https://huggingface.co/datasets/Kevin3777/ASAP-Triplet
 cp asap-triplet/*.json ./data/
+```
 
 You could have the original datasets including the train, dev and test data from https://github.com/Meituan-Dianping/asap.git
 
@@ -225,6 +226,7 @@ You could have the original datasets including the train, dev and test data from
 # Option 1: Clone the dataset repository
 git clone https://huggingface.co/datasets/Kevin3777/ASAP-Triplet
 cp asap-triplet/*.json ./data/
+```
 
 ### Direct Usage
 
