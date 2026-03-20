@@ -317,4 +317,4 @@ We thank the authors of the ASAP dataset and the open-source community for their
 
 ---
 
-**Note:** The code and data will be released upon paper acceptance. For questions, please open an issue or contact [wyj3777@outlook.com](mailto:your.email@example.com).
+**Note:** The code and data will be released upon paper acceptance. For questions, please open an issue or contact [wyj3777@outlook.com](mailto:wyj3777@outlook.com).
