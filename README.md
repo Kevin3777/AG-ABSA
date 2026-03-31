@@ -298,11 +298,14 @@ python eval_new\learnable\v3_all1\eval_learnable.py
 If you find this work useful for your research, please cite our paper:
 
 ```bibtex
-@article{yourname2026beyond,
-  title={Beyond Cosine Similarity: Zero-Initialized Residual Complex Projection for Aspect-Based Sentiment Analysis},
-  author={Your Name and Collaborators},
-  journal={arXiv preprint arXiv:2303.XXXXX},
-  year={2026}
+@misc{wang2026cosinesimilarityzeroinitializedresidual,
+      title={Beyond Cosine Similarity: Zero-Initialized Residual Complex Projection for Aspect-Based Sentiment Analysis}, 
+      author={Yijin Wang and Fandi Sun},
+      year={2026},
+      eprint={2603.28205},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2603.28205}, 
 }
 ```
 
