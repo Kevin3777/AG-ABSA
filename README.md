@@ -246,7 +246,7 @@ The pre-trained model is available on Hugging Face: [Kevin3777/zero-init-residua
 
 ```bash
 from transformers import AutoModel
-model = AutoModel.from_pretrained("yourusername/zrcp-absa")
+model = AutoModel.from_pretrained("Kevin3777/zero-init-residual-amp")
 ```
 
 ### Training
@@ -262,7 +262,7 @@ The training config is shown as an example:
 ```bash
 {
   "data": {
-    "input_jsonl_file": "D:/WorkSpace/AnglE_yj/data_preparation/Aspect-Polarity_Pair/output/v2/asap_angle_contextual_ap_data_hybrid.jsonl",
+    "input_jsonl_file": "data_preparation/Aspect-Polarity_Pair/output/v2/asap_angle_contextual_ap_data_hybrid.jsonl",
     "output_dir": "checkpoints_learnable/v3_all1"
   },
   "model": {
