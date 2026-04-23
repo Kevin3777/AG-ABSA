@@ -1,9 +1,0 @@
-模型路径: checkpoints_learnable/angle_alce_encoder
-评估时间: 2026-03-06 13:37:26
-平均 Accuracy: 0.9660
-平均 F1-Macro: 0.9256
-
-各Aspect结果:
-  口味: F1=0.9029, Acc=0.9700
-  服务态度: F1=0.9523, Acc=0.9673
-  性价比: F1=0.9217, Acc=0.9607

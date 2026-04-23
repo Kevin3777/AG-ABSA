@@ -1,0 +1,356 @@
+"""
+标准评估脚本 (SimCSE / AnglE 等编码器模型)
+- 使用训练集训练逻辑回归分类器
+- 在测试集上评估
+- 输出混淆矩阵、分类报告等详细信息
+"""
+
+import os
+import json
+import logging
+from datetime import datetime
+import numpy as np
+import pandas as pd
+import torch
+import torch.nn as nn
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (
+    accuracy_score, f1_score, confusion_matrix,
+    precision_score, recall_score, classification_report
+)
+from transformers import AutoModel, AutoTokenizer
+import warnings
+warnings.filterwarnings('ignore')
+
+# ==================== 配置区域 ====================
+# 模型路径（训练好的 checkpoint）
+MODEL_PATH = r'checkpoints_ablation/simple_triplets'  # 请修改为你的模型路径
+
+# 数据路径
+TRAIN_CSV = r'train.csv'      # 训练集路径
+TEST_CSV = r'test.csv'        # 测试集路径
+
+# 结果保存目录
+OUTPUT_DIR = r"Ablation_eperience\eval\simple_triplets\result\evaluation_results_standard"
+
+# 超参数
+BATCH_SIZE = 128
+MAX_LEN = 512
+RANDOM_STATE = 42
+
+# Aspect 映射
+ASPECT_MAPPING = {
+    'Location#Transportation': '交通',
+    'Location#Downtown': '地段',
+    'Location#Easy_to_find': '位置易找度',
+    'Service#Queue': '排队',
+    'Service#Hospitality': '服务态度',
+    'Service#Parking': '停车',
+    'Service#Timely': '上菜速度',
+    'Price#Level': '价格水平',
+    'Price#Cost_effective': '性价比',
+    'Price#Discount': '折扣优惠',
+    'Ambience#Decoration': '装修装饰',
+    'Ambience#Noise': '噪音环境',
+    'Ambience#Space': '空间',
+    'Ambience#Sanitary': '卫生',
+    'Food#Portion': '份量',
+    'Food#Taste': '口味',
+    'Food#Appearance': '外观卖相',
+    'Food#Recommend': '推荐度'
+}
+
+# 设备
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# ==================== 模型定义 ====================
+class ComplexProjection(nn.Module):
+    """残差可学习复数空间投影层 (Residual AP-Proj)"""
+    def __init__(self, hidden_size):
+        super().__init__()
+        self.half_size = hidden_size // 2
+        self.proj_re = nn.Linear(self.half_size, self.half_size)
+        self.proj_im = nn.Linear(self.half_size, self.half_size)
+        nn.init.zeros_(self.proj_re.weight)
+        nn.init.zeros_(self.proj_im.weight)
+        nn.init.zeros_(self.proj_re.bias)
+        nn.init.zeros_(self.proj_im.bias)
+
+    def forward(self, x):
+        re_orig, im_orig = torch.chunk(x, 2, dim=1)
+        re = re_orig + self.proj_re(re_orig)
+        im = im_orig + self.proj_im(im_orig)
+        return torch.cat([re, im], dim=1)
+
+class AnglE_Eval(nn.Module):
+    def __init__(self, model_name_or_path, max_length=512):
+        super().__init__()
+        self.model = AutoModel.from_pretrained(model_name_or_path)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)
+        self.max_length = max_length
+
+        hidden_size = self.model.config.hidden_size
+        self.model.add_module('complex_proj', ComplexProjection(hidden_size))
+        proj_path = os.path.join(model_name_or_path, 'complex_proj.bin')
+        if os.path.exists(proj_path):
+            self.model.complex_proj.load_state_dict(torch.load(proj_path, map_location='cpu'))
+            print(f"✅ 加载投影层权重: {proj_path}")
+        else:
+            print("⚠️ 未找到 complex_proj.bin，将不使用投影层")
+            delattr(self.model, 'complex_proj')
+
+    def forward(self, input_ids, attention_mask=None):
+        outputs = self.model(input_ids=input_ids, attention_mask=attention_mask,
+                             output_hidden_states=True)
+        pooled = outputs.last_hidden_state[:, 0, :]  # CLS
+        if hasattr(self.model, 'complex_proj'):
+            pooled = self.model.complex_proj(pooled)
+        return pooled
+
+    def to(self, device):
+        self.model = self.model.to(device)
+        return self
+
+def load_angle_model(model_path, max_length=512):
+    model = AnglE_Eval(model_path, max_length=max_length)
+    return model
+
+# ==================== 编码函数 ====================
+def encode_texts(model, texts, batch_size=BATCH_SIZE, normalize=False):
+    """批量编码文本，返回 numpy 数组"""
+    model.eval()
+    all_embs = []
+    with torch.no_grad():
+        for i in range(0, len(texts), batch_size):
+            batch = texts[i:i+batch_size]
+            inputs = model.tokenizer(batch, padding='longest', truncation=True,
+                                     max_length=model.max_length, return_tensors='pt')
+            inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
+            emb = model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
+            if normalize:
+                emb = nn.functional.normalize(emb, p=2, dim=-1)
+            all_embs.append(emb.cpu().numpy())
+    return np.concatenate(all_embs, axis=0)
+
+# ==================== 数据加载与清洗 ====================
+def clean_review(text):
+    """清洗评论文本"""
+    import re
+    text = str(text).replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
+    text = re.sub(r'\\', '', text)
+    text = text.replace('//', ' ')
+    return text.strip()
+
+def load_aspect_data(csv_path, aspect_en):
+    """加载并过滤某个 aspect 的数据，只保留正负样本"""
+    df = pd.read_csv(csv_path)
+    df['review'] = df['review'].apply(clean_review)
+    if aspect_en in df.columns:
+        df = df[df[aspect_en].isin([1, -1])].copy()
+        df['label'] = df[aspect_en].astype(int)
+    else:
+        print(f"⚠️ 数据集中没有 {aspect_en} 列")
+        return pd.DataFrame()
+    return df
+
+def create_ap_text(aspect_cn, review):
+    """构造 Aspect-Polarity 输入文本"""
+    return f"Aspect: {aspect_cn}, Context: {review}"
+
+# ==================== 日志设置 ====================
+def setup_logging():
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = os.path.join(OUTPUT_DIR, f"eval_log_{timestamp}.txt")
+    
+    logger = logging.getLogger("aspect_evaluation")
+    logger.setLevel(logging.INFO)
+    
+    if logger.handlers:
+        logger.handlers.clear()
+    
+    file_handler = logging.FileHandler(log_file, encoding='utf-8')
+    console_handler = logging.StreamHandler()
+    formatter = logging.Formatter('%(asctime)s - %(message)s')
+    
+    file_handler.setFormatter(formatter)
+    console_handler.setFormatter(formatter)
+    
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
+    return logger, timestamp
+
+# ==================== 核心评估函数 ====================
+def evaluate_aspect_standard(model, train_df, test_df, aspect_cn, logger):
+    """
+    使用训练集嵌入训练分类器，在测试集上评估
+    返回详细指标字典
+    """
+    # 构造文本
+    train_texts = [create_ap_text(aspect_cn, row['review']) for _, row in train_df.iterrows()]
+    train_labels = train_df['label'].values
+    test_texts = [create_ap_text(aspect_cn, row['review']) for _, row in test_df.iterrows()]
+    test_labels = test_df['label'].values
+
+    if len(np.unique(train_labels)) < 2:
+        logger.warning(f"  {aspect_cn}: 训练集中只有一个类别，跳过")
+        return None
+
+    logger.info(f"  编码训练集 ({len(train_texts)} 条)...")
+    X_train = encode_texts(model, train_texts, batch_size=BATCH_SIZE, normalize=False)
+    logger.info(f"  编码测试集 ({len(test_texts)} 条)...")
+    X_test = encode_texts(model, test_texts, batch_size=BATCH_SIZE, normalize=False)
+
+    # 训练逻辑回归
+    clf = LogisticRegression(solver='liblinear', class_weight='balanced', random_state=RANDOM_STATE)
+    clf.fit(X_train, train_labels)
+    y_pred = clf.predict(X_test)
+
+    # 计算指标
+    acc = accuracy_score(test_labels, y_pred)
+    f1_macro = f1_score(test_labels, y_pred, average='macro', labels=[-1, 1])
+    
+    # 各类别指标
+    prec_pos = precision_score(test_labels, y_pred, pos_label=1, zero_division=0)
+    rec_pos = recall_score(test_labels, y_pred, pos_label=1, zero_division=0)
+    f1_pos = f1_score(test_labels, y_pred, pos_label=1, zero_division=0)
+    
+    prec_neg = precision_score(test_labels, y_pred, pos_label=-1, zero_division=0)
+    rec_neg = recall_score(test_labels, y_pred, pos_label=-1, zero_division=0)
+    f1_neg = f1_score(test_labels, y_pred, pos_label=-1, zero_division=0)
+
+    cm = confusion_matrix(test_labels, y_pred, labels=[-1, 1])
+
+    result = {
+        'aspect': aspect_cn,
+        'train_samples': len(train_labels),
+        'test_samples': len(test_labels),
+        'accuracy': acc,
+        'f1_macro': f1_macro,
+        'f1_positive': f1_pos,
+        'f1_negative': f1_neg,
+        'precision_positive': prec_pos,
+        'recall_positive': rec_pos,
+        'precision_negative': prec_neg,
+        'recall_negative': rec_neg,
+        'confusion_matrix': cm.tolist()
+    }
+
+    logger.info(f"\n  [{aspect_cn}] 测试样本数: {len(test_labels)}")
+    logger.info(f"    Accuracy: {acc:.4f} | Macro F1: {f1_macro:.4f}")
+    logger.info(f"    Positive: Prec={prec_pos:.4f} Rec={rec_pos:.4f} F1={f1_pos:.4f}")
+    logger.info(f"    Negative: Prec={prec_neg:.4f} Rec={rec_neg:.4f} F1={f1_neg:.4f}")
+    logger.info(f"    混淆矩阵 (真实\\预测) [-1, 1]:")
+    logger.info(f"      {cm[0]}  (true negative)")
+    logger.info(f"      {cm[1]}  (true positive)")
+
+    return result
+
+# ==================== 主函数 ====================
+def main():
+    logger, timestamp = setup_logging()
+    
+    logger.info("=" * 70)
+    logger.info("标准评估 (训练集训练LR，测试集评估)")
+    logger.info(f"模型路径: {MODEL_PATH}")
+    logger.info(f"训练集: {TRAIN_CSV}")
+    logger.info(f"测试集: {TEST_CSV}")
+    logger.info(f"设备: {DEVICE}")
+    logger.info("=" * 70)
+
+    # 检查模型路径
+    if not os.path.exists(MODEL_PATH):
+        logger.error(f"❌ 模型路径不存在: {MODEL_PATH}")
+        parent_dir = os.path.dirname(MODEL_PATH)
+        if os.path.exists(parent_dir):
+            logger.info(f"目录 {parent_dir} 中的文件:")
+            for f in os.listdir(parent_dir):
+                logger.info(f"  {f}")
+        return
+
+    # 检查数据路径
+    if not os.path.exists(TRAIN_CSV):
+        logger.error(f"❌ 训练集路径不存在: {TRAIN_CSV}")
+        return
+    if not os.path.exists(TEST_CSV):
+        logger.error(f"❌ 测试集路径不存在: {TEST_CSV}")
+        return
+
+    # 加载模型
+    logger.info("\n📦 加载模型...")
+    model = load_angle_model(MODEL_PATH, max_length=MAX_LEN)
+    model = model.to(DEVICE)
+    model.eval()
+    logger.info(f"✅ 模型加载成功")
+
+    # 加载完整训练集和测试集
+    train_full = pd.read_csv(TRAIN_CSV)
+    test_full = pd.read_csv(TEST_CSV)
+    logger.info(f"\n📊 训练集原始行数: {len(train_full)}，测试集: {len(test_full)}")
+
+    all_results = {}
+    
+    for aspect_en, aspect_cn in ASPECT_MAPPING.items():
+        logger.info(f"\n{'='*50}")
+        logger.info(f"处理 Aspect: {aspect_en} ({aspect_cn})")
+        
+        train_df = load_aspect_data(TRAIN_CSV, aspect_en)
+        test_df = load_aspect_data(TEST_CSV, aspect_en)
+
+        if len(train_df) == 0:
+            logger.warning(f"  训练集无有效数据，跳过")
+            continue
+        if len(test_df) == 0:
+            logger.warning(f"  测试集无有效数据，跳过")
+            continue
+
+        result = evaluate_aspect_standard(model, train_df, test_df, aspect_cn, logger)
+        if result:
+            all_results[aspect_cn] = result
+
+    # 计算总体平均
+    if all_results:
+        avg_acc = np.mean([r['accuracy'] for r in all_results.values()])
+        avg_f1_macro = np.mean([r['f1_macro'] for r in all_results.values()])
+        
+        logger.info("\n" + "=" * 70)
+        logger.info("📊 总体结果汇总")
+        logger.info("=" * 70)
+        logger.info(f"平均 Accuracy: {avg_acc:.4f}")
+        logger.info(f"平均 Macro F1: {avg_f1_macro:.4f}")
+        
+        # 保存 JSON 结果
+        json_path = os.path.join(OUTPUT_DIR, f"results_{timestamp}.json")
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(all_results, f, indent=2, ensure_ascii=False)
+        
+        # 保存文本报告
+        report_path = os.path.join(OUTPUT_DIR, f"report_{timestamp}.txt")
+        with open(report_path, 'w', encoding='utf-8') as f:
+            f.write("=" * 70 + "\n")
+            f.write(f"标准评估报告\n")
+            f.write(f"时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"模型: {MODEL_PATH}\n")
+            f.write(f"平均 Accuracy: {avg_acc:.4f}\n")
+            f.write(f"平均 Macro F1: {avg_f1_macro:.4f}\n")
+            f.write("=" * 70 + "\n\n")
+            
+            for aspect, res in all_results.items():
+                f.write(f"\n--- {aspect} ---\n")
+                f.write(f"训练样本数: {res['train_samples']}, 测试样本数: {res['test_samples']}\n")
+                f.write(f"Accuracy: {res['accuracy']:.4f}\n")
+                f.write(f"Macro F1: {res['f1_macro']:.4f}\n")
+                f.write(f"Positive: Prec={res['precision_positive']:.4f} Rec={res['recall_positive']:.4f} F1={res['f1_positive']:.4f}\n")
+                f.write(f"Negative: Prec={res['precision_negative']:.4f} Rec={res['recall_negative']:.4f} F1={res['f1_negative']:.4f}\n")
+                f.write("混淆矩阵 (真实\\预测):\n")
+                f.write(f"  negative: {res['confusion_matrix'][0]}\n")
+                f.write(f"  positive: {res['confusion_matrix'][1]}\n\n")
+        
+        logger.info(f"\n✅ 结果已保存至:")
+        logger.info(f"   {json_path}")
+        logger.info(f"   {report_path}")
+    else:
+        logger.error("❌ 没有有效的评估结果")
+
+if __name__ == "__main__":
+    main()

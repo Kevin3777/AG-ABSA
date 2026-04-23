@@ -1,0 +1,249 @@
+(angle_pytorch) PS D:\WorkSpace\AnglE_yj> python Ablation_eperience\eval\ours_3group\eval_learnable.py
+======================================================================
+Ours (AnglE+ZRCP) 标准评估 (训练集训练LR，测试集评估)
+模型: checkpoints_ablation/ours_3group
+设备: cuda
+======================================================================
+Some weights of the model checkpoint at checkpoints_ablation/ours_3group were not used when initializing BertModel: ['complex_proj.proj_im.bias', 'complex_proj.proj_im.weight', 'complex_proj.proj_re.bias', 'complex_proj.proj_re.weight']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).  
+✅ 加载投影层权重: checkpoints_ablation/ours_3group\complex_proj.bin
+训练集原始行数: 36850，测试集: 4940
+
+==================================================
+处理 Aspect: Location#Transportation (交通)
+  编码训练集 (7046 条)...
+  编码测试集 (931 条)...
+
+  [交通] 测试样本数: 931
+    Accuracy: 0.9603 | Macro F1: 0.8650
+    Positive: Prec=0.9859 Rec=0.9710 F1=0.9784
+    Negative: Prec=0.6914 Rec=0.8235 F1=0.7517
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [56 12]  (true negative)
+      [ 25 838]  (true positive)
+
+==================================================
+处理 Aspect: Location#Downtown (地段)
+  编码训练集 (6182 条)...
+  编码测试集 (848 条)...
+
+  [地段] 测试样本数: 848
+    Accuracy: 0.9741 | Macro F1: 0.8158
+    Positive: Prec=0.9951 Rec=0.9782 F1=0.9865
+    Negative: Prec=0.5263 Rec=0.8333 F1=0.6452
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [20  4]  (true negative)
+      [ 18 806]  (true positive)
+
+==================================================
+处理 Aspect: Location#Easy_to_find (位置易找度)
+  编码训练集 (6411 条)...
+  编码测试集 (868 条)...
+
+  [位置易找度] 测试样本数: 868
+    Accuracy: 0.9401 | Macro F1: 0.9149
+    Positive: Prec=0.9787 Rec=0.9443 F1=0.9612
+    Negative: Prec=0.8190 Rec=0.9247 F1=0.8687
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [172  14]  (true negative)
+      [ 38 644]  (true positive)
+
+==================================================
+处理 Aspect: Service#Queue (排队)
+  编码训练集 (3422 条)...
+  编码测试集 (470 条)...
+
+  [排队] 测试样本数: 470
+    Accuracy: 0.8574 | Macro F1: 0.8572
+    Positive: Prec=0.8903 Rec=0.8373 F1=0.8630
+    Negative: Prec=0.8240 Rec=0.8807 F1=0.8514
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [192  26]  (true negative)
+      [ 41 211]  (true positive)
+
+==================================================
+处理 Aspect: Service#Hospitality (服务态度)
+  编码训练集 (16811 条)...
+  编码测试集 (2205 条)...
+
+  [服务态度] 测试样本数: 2205
+    Accuracy: 0.9642 | Macro F1: 0.9479
+    Positive: Prec=0.9830 Rec=0.9711 F1=0.9770
+    Negative: Prec=0.8994 Rec=0.9391 F1=0.9188
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [447  29]  (true negative)
+      [  50 1679]  (true positive)
+
+==================================================
+处理 Aspect: Service#Parking (停车)
+  编码训练集 (1973 条)...
+  编码测试集 (257 条)...
+
+  [停车] 测试样本数: 257
+    Accuracy: 0.9144 | Macro F1: 0.8920
+    Positive: Prec=0.9312 Rec=0.9514 F1=0.9412
+    Negative: Prec=0.8676 Rec=0.8194 F1=0.8429
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [59 13]  (true negative)
+      [  9 176]  (true positive)
+
+==================================================
+处理 Aspect: Service#Timely (上菜速度)
+  编码训练集 (4821 条)...
+  编码测试集 (658 条)...
+
+  [上菜速度] 测试样本数: 658
+    Accuracy: 0.9422 | Macro F1: 0.9398
+    Positive: Prec=0.9567 Rec=0.9471 F1=0.9519
+    Negative: Prec=0.9208 Rec=0.9349 F1=0.9278
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [244  17]  (true negative)
+      [ 21 376]  (true positive)
+
+==================================================
+处理 Aspect: Price#Level (价格水平)
+  编码训练集 (9931 条)...
+  编码测试集 (1348 条)...
+
+  [价格水平] 测试样本数: 1348
+    Accuracy: 0.9318 | Macro F1: 0.9312
+    Positive: Prec=0.9295 Rec=0.9449 F1=0.9372
+    Negative: Prec=0.9344 Rec=0.9164 F1=0.9253
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [570  52]  (true negative)
+      [ 40 686]  (true positive)
+
+==================================================
+处理 Aspect: Price#Cost_effective (性价比)
+  编码训练集 (7245 条)...
+  编码测试集 (942 条)...
+
+  [性价比] 测试样本数: 942
+    Accuracy: 0.9522 | Macro F1: 0.9059
+    Positive: Prec=0.9924 Rec=0.9523 F1=0.9719
+    Negative: Prec=0.7516 Rec=0.9516 F1=0.8399
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [118   6]  (true negative)
+      [ 39 779]  (true positive)
+
+==================================================
+处理 Aspect: Price#Discount (折扣优惠)
+  编码训练集 (6018 条)...
+  编码测试集 (795 条)...
+
+  [折扣优惠] 测试样本数: 795
+    Accuracy: 0.8616 | Macro F1: 0.7372
+    Positive: Prec=0.9640 Rec=0.8762 F1=0.9180
+    Negative: Prec=0.4423 Rec=0.7500 F1=0.5565
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [69 23]  (true negative)
+      [ 87 616]  (true positive)
+
+==================================================
+处理 Aspect: Ambience#Decoration (装修装饰)
+  编码训练集 (13268 条)...
+  编码测试集 (1736 条)...
+
+  [装修装饰] 测试样本数: 1736
+    Accuracy: 0.9597 | Macro F1: 0.8524
+    Positive: Prec=0.9918 Rec=0.9650 F1=0.9782
+    Negative: Prec=0.6200 Rec=0.8774 F1=0.7266
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [93 13]  (true negative)
+      [  57 1573]  (true positive)
+
+==================================================
+处理 Aspect: Ambience#Noise (噪音环境)
+  编码训练集 (8882 条)...
+  编码测试集 (1201 条)...
+
+  [噪音环境] 测试样本数: 1201
+    Accuracy: 0.9592 | Macro F1: 0.9154
+    Positive: Prec=0.9825 Rec=0.9702 F1=0.9763
+    Negative: Prec=0.8229 Rec=0.8889 F1=0.8546
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [144  18]  (true negative)
+      [  31 1008]  (true positive)
+
+==================================================
+处理 Aspect: Ambience#Space (空间)
+  编码训练集 (9961 条)...
+  编码测试集 (1322 条)...
+
+  [空间] 测试样本数: 1322
+    Accuracy: 0.9198 | Macro F1: 0.8857
+    Positive: Prec=0.9690 Rec=0.9282 F1=0.9481
+    Negative: Prec=0.7671 Rec=0.8885 F1=0.8233
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [247  31]  (true negative)
+      [ 75 969]  (true positive)
+
+==================================================
+处理 Aspect: Ambience#Sanitary (卫生)
+  编码训练集 (10691 条)...
+  编码测试集 (1420 条)...
+
+  [卫生] 测试样本数: 1420
+    Accuracy: 0.9261 | Macro F1: 0.8743
+    Positive: Prec=0.9823 Rec=0.9290 F1=0.9550
+    Negative: Prec=0.7038 Rec=0.9099 F1=0.7937
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [202  20]  (true negative)
+      [  85 1113]  (true positive)
+
+==================================================
+处理 Aspect: Food#Portion (份量)
+  编码训练集 (13040 条)...
+  编码测试集 (1725 条)...
+
+  [份量] 测试样本数: 1725
+    Accuracy: 0.9136 | Macro F1: 0.8939
+    Positive: Prec=0.9627 Rec=0.9177 F1=0.9397
+    Negative: Prec=0.8000 Rec=0.9024 F1=0.8481
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [416  45]  (true negative)
+      [ 104 1160]  (true positive)
+
+==================================================
+处理 Aspect: Food#Taste (口味)
+  编码训练集 (21282 条)...
+  编码测试集 (2763 条)...
+
+  [口味] 测试样本数: 2763
+    Accuracy: 0.9736 | Macro F1: 0.9129
+    Positive: Prec=0.9940 Rec=0.9773 F1=0.9856
+    Negative: Prec=0.7680 Rec=0.9275 F1=0.8403
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [192  15]  (true negative)
+      [  58 2498]  (true positive)
+
+==================================================
+处理 Aspect: Food#Appearance (外观卖相)
+  编码训练集 (7967 条)...
+  编码测试集 (1063 条)...
+
+  [外观卖相] 测试样本数: 1063
+    Accuracy: 0.8946 | Macro F1: 0.8085
+    Positive: Prec=0.9720 Rec=0.9043 F1=0.9369
+    Negative: Prec=0.5749 Rec=0.8322 F1=0.6800
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [119  24]  (true negative)
+      [ 88 832]  (true positive)
+
+==================================================
+处理 Aspect: Food#Recommend (推荐度)
+  编码训练集 (6195 条)...
+  编码测试集 (784 条)...
+
+  [推荐度] 测试样本数: 784
+    Accuracy: 0.9592 | Macro F1: 0.9067
+    Positive: Prec=0.9867 Rec=0.9668 F1=0.9767
+    Negative: Prec=0.7810 Rec=0.9011 F1=0.8367
+    Confusion Matrix (rows: true, cols: pred) [-1, 1]:
+      [82  9]  (true negative)
+      [ 23 670]  (true positive)
+
+======================================================================
+总体平均 Accuracy: 0.9336
+总体平均 Macro F1: 0.8809

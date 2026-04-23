@@ -1,0 +1,206 @@
+======================================================================
+Ours (AnglE+ZRCP) 标准评估报告
+时间: 2026-04-07 20:58:36.667914
+模型: checkpoints_simcse/v1
+平均 Accuracy: 0.9297
+平均 Macro F1: 0.8748
+======================================================================
+
+
+--- 交通 ---
+训练样本数: 7046, 测试样本数: 931
+Accuracy: 0.9710
+Macro F1: 0.9039
+Positive: Prec=0.9941 Rec=0.9745 F1=0.9842
+Negative: Prec=0.7412 Rec=0.9265 F1=0.8235
+混淆矩阵 (真实\预测):
+  negative: [63, 5]
+  positive: [22, 841]
+
+
+--- 地段 ---
+训练样本数: 6182, 测试样本数: 848
+Accuracy: 0.9682
+Macro F1: 0.7961
+Positive: Prec=0.9963 Rec=0.9709 F1=0.9834
+Negative: Prec=0.4667 Rec=0.8750 F1=0.6087
+混淆矩阵 (真实\预测):
+  negative: [21, 3]
+  positive: [24, 800]
+
+
+--- 位置易找度 ---
+训练样本数: 6411, 测试样本数: 868
+Accuracy: 0.9424
+Macro F1: 0.9191
+Positive: Prec=0.9847 Rec=0.9413 F1=0.9625
+Negative: Prec=0.8148 Rec=0.9462 F1=0.8756
+混淆矩阵 (真实\预测):
+  negative: [176, 10]
+  positive: [40, 642]
+
+
+--- 排队 ---
+训练样本数: 3422, 测试样本数: 470
+Accuracy: 0.8404
+Macro F1: 0.8401
+Positive: Prec=0.8703 Rec=0.8254 F1=0.8473
+Negative: Prec=0.8095 Rec=0.8578 F1=0.8330
+混淆矩阵 (真实\预测):
+  negative: [187, 31]
+  positive: [44, 208]
+
+
+--- 服务态度 ---
+训练样本数: 16811, 测试样本数: 2205
+Accuracy: 0.9660
+Macro F1: 0.9505
+Positive: Prec=0.9836 Rec=0.9728 F1=0.9782
+Negative: Prec=0.9051 Rec=0.9412 F1=0.9228
+混淆矩阵 (真实\预测):
+  negative: [448, 28]
+  positive: [47, 1682]
+
+
+--- 停车 ---
+训练样本数: 1973, 测试样本数: 257
+Accuracy: 0.9261
+Macro F1: 0.9072
+Positive: Prec=0.9415 Rec=0.9568 F1=0.9491
+Negative: Prec=0.8841 Rec=0.8472 F1=0.8652
+混淆矩阵 (真实\预测):
+  negative: [61, 11]
+  positive: [8, 177]
+
+
+--- 上菜速度 ---
+训练样本数: 4821, 测试样本数: 658
+Accuracy: 0.9195
+Macro F1: 0.9161
+Positive: Prec=0.9388 Rec=0.9270 F1=0.9328
+Negative: Prec=0.8910 Rec=0.9080 F1=0.8994
+混淆矩阵 (真实\预测):
+  negative: [237, 24]
+  positive: [29, 368]
+
+
+--- 价格水平 ---
+训练样本数: 9931, 测试样本数: 1348
+Accuracy: 0.9318
+Macro F1: 0.9312
+Positive: Prec=0.9272 Rec=0.9477 F1=0.9373
+Negative: Prec=0.9373 Rec=0.9132 F1=0.9251
+混淆矩阵 (真实\预测):
+  negative: [568, 54]
+  positive: [38, 688]
+
+
+--- 性价比 ---
+训练样本数: 7245, 测试样本数: 942
+Accuracy: 0.9512
+Macro F1: 0.9035
+Positive: Prec=0.9911 Rec=0.9523 F1=0.9713
+Negative: Prec=0.7500 Rec=0.9435 F1=0.8357
+混淆矩阵 (真实\预测):
+  negative: [117, 7]
+  positive: [39, 779]
+
+
+--- 折扣优惠 ---
+训练样本数: 6018, 测试样本数: 795
+Accuracy: 0.8654
+Macro F1: 0.7347
+Positive: Prec=0.9585 Rec=0.8862 F1=0.9209
+Negative: Prec=0.4483 Rec=0.7065 F1=0.5485
+混淆矩阵 (真实\预测):
+  negative: [65, 27]
+  positive: [80, 623]
+
+
+--- 装修装饰 ---
+训练样本数: 13268, 测试样本数: 1736
+Accuracy: 0.9412
+Macro F1: 0.8057
+Positive: Prec=0.9910 Rec=0.9460 F1=0.9680
+Negative: Prec=0.5111 Rec=0.8679 F1=0.6434
+混淆矩阵 (真实\预测):
+  negative: [92, 14]
+  positive: [88, 1542]
+
+
+--- 噪音环境 ---
+训练样本数: 8882, 测试样本数: 1201
+Accuracy: 0.9550
+Macro F1: 0.9079
+Positive: Prec=0.9824 Rec=0.9654 F1=0.9738
+Negative: Prec=0.8000 Rec=0.8889 F1=0.8421
+混淆矩阵 (真实\预测):
+  negative: [144, 18]
+  positive: [36, 1003]
+
+
+--- 空间 ---
+训练样本数: 9961, 测试样本数: 1322
+Accuracy: 0.9168
+Macro F1: 0.8809
+Positive: Prec=0.9651 Rec=0.9282 F1=0.9463
+Negative: Prec=0.7642 Rec=0.8741 F1=0.8154
+混淆矩阵 (真实\预测):
+  negative: [243, 35]
+  positive: [75, 969]
+
+
+--- 卫生 ---
+训练样本数: 10691, 测试样本数: 1420
+Accuracy: 0.9197
+Macro F1: 0.8654
+Positive: Prec=0.9822 Rec=0.9215 F1=0.9509
+Negative: Prec=0.6824 Rec=0.9099 F1=0.7799
+混淆矩阵 (真实\预测):
+  negative: [202, 20]
+  positive: [94, 1104]
+
+
+--- 份量 ---
+训练样本数: 13040, 测试样本数: 1725
+Accuracy: 0.9072
+Macro F1: 0.8864
+Positive: Prec=0.9600 Rec=0.9114 F1=0.9351
+Negative: Prec=0.7867 Rec=0.8959 F1=0.8377
+混淆矩阵 (真实\预测):
+  negative: [413, 48]
+  positive: [112, 1152]
+
+
+--- 口味 ---
+训练样本数: 21282, 测试样本数: 2763
+Accuracy: 0.9710
+Macro F1: 0.9048
+Positive: Prec=0.9928 Rec=0.9757 F1=0.9842
+Negative: Prec=0.7530 Rec=0.9130 F1=0.8253
+混淆矩阵 (真实\预测):
+  negative: [189, 18]
+  positive: [62, 2494]
+
+
+--- 外观卖相 ---
+训练样本数: 7967, 测试样本数: 1063
+Accuracy: 0.8899
+Macro F1: 0.8022
+Positive: Prec=0.9718 Rec=0.8989 F1=0.9339
+Negative: Prec=0.5613 Rec=0.8322 F1=0.6704
+混淆矩阵 (真实\预测):
+  negative: [119, 24]
+  positive: [93, 827]
+
+
+--- 推荐度 ---
+训练样本数: 6195, 测试样本数: 784
+Accuracy: 0.9515
+Macro F1: 0.8911
+Positive: Prec=0.9852 Rec=0.9596 F1=0.9722
+Negative: Prec=0.7431 Rec=0.8901 F1=0.8100
+混淆矩阵 (真实\预测):
+  negative: [81, 10]
+  positive: [28, 665]
+
